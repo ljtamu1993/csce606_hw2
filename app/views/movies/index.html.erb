@@ -20,7 +20,8 @@
     <tr>
       <!--<th>Movie Title</th>-->
       <th class="<%= ("highlight" if @highlight == "title") %>">
-        <%= link_to 'Movie Title', movies_path(:sort => 'title', :ratings =>@ratings_to_show.product([1]).to_h), :id => 'title_head' %>
+        <%= link_to 'Movie Title', movies_path(sort: "title"), :id => 'title_head' %>
+        <!--<%= link_to 'Movie Title', movies_path(:sort => 'title', :ratings =>@ratings_to_show.product([1]).to_h), :id => 'title_head' %>-->
       </th>
       <th>Rating</th>
       <!--<th>Release Date</th>-->

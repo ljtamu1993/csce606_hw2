@@ -8,6 +8,10 @@ class MoviesController < ApplicationController
   
     def index
       # @movies = Movie.all
+      if ((params[:sort] <=> "title")  == 0)
+        @movies = Movie.sort("title")
+      end      
+      
       @ratings_to_show = []
       if !params[:ratings].nil?
         @ratings_to_show = params[:ratings].keys

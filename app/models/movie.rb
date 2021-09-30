@@ -11,4 +11,8 @@ class Movie < ActiveRecord::Base
         return Movie.where(rating: ratings_list)
     end
     
+    def self.sort(sort_key)
+        return Movie.order(sort_key)
+    end
+    
 end
