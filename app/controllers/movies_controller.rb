@@ -8,17 +8,47 @@ class MoviesController < ApplicationController
   
     def index
       # @movies = Movie.all
-      if ((params[:sort] <=> "title")  == 0)
-        @movies = Movie.sort("title")
-      end      
+      if request.path == '/' #For a default path
+        reset_session
+      end
       
-      @ratings_to_show = []
+      @ratings_to_show =!session[:ratings_to_show].nil? ? session[:ratings_to_show]:[]
+      if !session[:sort_by].nil?
+        if !params[:sort].nil? and params[:sort] != session[:sort_by] #What if the sort value is changed?
+          session[:sort_by] = params[:sort]
+        end
+        @sort = session[:sort_by]
+      else
+        @sort = params[:sort] 
+      end
+      
+      session[:sort_by] = @sort  # Added for session record
+      
       if !params[:ratings].nil?
         @ratings_to_show = params[:ratings].keys
+        session[:ratings_to_show] = @ratings_to_show
       end
       
       @movies = Movie.with_ratings(@ratings_to_show)
       @all_ratings = Movie.all_ratings
+     
+      
+      #Added for part 2
+      #@sort = params[:sort] //Moved up for Part 3 Session data
+  
+      if @sort
+        @movies = @movies.order(@sort)
+          case @sort
+          when "title"
+            @title_header = 'bg-warning'    #bootstrap class
+          when !"title"
+            @title_header = 'hilite'        #css class
+          when "release_date"
+            @release_date_header = 'bg-warning'
+          when !"release_date"
+            @release_date_header = 'hilite'
+          end
+      end
     end
   
     def new
