@@ -8,29 +8,29 @@ class MoviesController < ApplicationController
   
     def index
       # @movies = Movie.all
-      if request.path == '/' #For a default path
-        reset_session
-      end
+      # if request.path == '/' #For a default path
+      #   reset_session
+      # end
       
-      @ratings_to_show =!session[:ratings_to_show].nil? ? session[:ratings_to_show]:[]
-      if !session[:sort_by].nil?
-        if !params[:sort].nil? and params[:sort] != session[:sort_by] #What if the sort value is changed?
-          session[:sort_by] = params[:sort]
-        end
-        @sort = session[:sort_by]
-      else
-        @sort = params[:sort] 
-      end
+      # @ratings_to_show =!session[:ratings_to_show].nil? ? session[:ratings_to_show]:[]
+      # if !session[:sort_by].nil?
+      #   if !params[:sort].nil? and params[:sort] != session[:sort_by] #What if the sort value is changed?
+      #     session[:sort_by] = params[:sort]
+      #   end
+      #   @sort = session[:sort_by]
+      # else
+      #   @sort = params[:sort] 
+      # end
       
-      session[:sort_by] = @sort  # Added for session record
+      # session[:sort_by] = @sort  # Added for session record
       
-      if !params[:ratings].nil?
-        @ratings_to_show = params[:ratings].keys
-        session[:ratings_to_show] = @ratings_to_show
-      end
+      # if !params[:ratings].nil?
+      #   @ratings_to_show = params[:ratings].keys
+      #   session[:ratings_to_show] = @ratings_to_show
+      # end
       
-      @movies = Movie.with_ratings(@ratings_to_show)
-      @all_ratings = Movie.all_ratings
+      # @movies = Movie.with_ratings(@ratings_to_show)
+      # @all_ratings = Movie.all_ratings
      
       
       #Added for part 2
