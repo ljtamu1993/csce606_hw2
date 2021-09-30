@@ -19,7 +19,7 @@ class MoviesController < ApplicationController
       #   end
       #   @sort = session[:sort_by]
       # else
-      #   @sort = params[:sort] 
+      @sort = params[:sort] 
       # end
       
       # session[:sort_by] = @sort  # Added for session record
