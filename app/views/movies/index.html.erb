@@ -1,20 +1,28 @@
 <!--  This file is app/views/movies/index.html.erb -->
 <h2>All Movies</h2>
 
-<%#  Part 2: Start here... Also Part 1 %>
+<%#  Part 2: Start here... %>
 <%= form_tag movies_path, method: :get, id: 'ratings_form' do %>
   Include:
+  <%#  Part 2: @all_ratings given in the controller%>
   <% @all_ratings.each do |rating| %>
     <div class="form-check  form-check-inline">
+      
+      
       <%= label_tag "ratings[#{rating}]", rating, class: 'form-check-label' %>
+      
+      <%#  Part 2: @ratings_to show given in the controller%>
       <%= check_box_tag "ratings[#{rating}]", "1",  @ratings_to_show.include?(rating), class: 'form-check-input' %>
+      
     </div>
   <% end %>
-  <%= hidden_field_tag "sort", @sort %>
+<%#  <%= hidden_field_tag "sort", @sort %>
+  
+  
   <%= submit_tag 'Refresh', id: 'ratings_submit', class: 'btn btn-primary' %>
 <% end %>
 
-
+<%#  Part 1: Start here... %>
 <table class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
@@ -24,13 +32,6 @@
       <th class="<%=@release_date_klass%>">
         <%= link_to "Release Date", movies_path({:sort => 'release_date', :ratings => Hash[@ratings_to_show.collect {|item| [item, "1"]}]}), :id => 'release_date_header' %></th>
       <th>More Info</th>
-      
-<%#      <th class="<%=@title_klass%>
-<%#        <%= link_to "Movie Title", movies_path({:sort => 'title', :ratings => Hash[@ratings_to_show.collect {|item| [item, "1"]}]}), :id => 'title_header' %>
-<%#      <th>Rating</th>
-<%#      <th class="<%=@release_date_klass%>
-<%#        <%= link_to "Release Date", movies_path({:sort => 'release_date', :ratings => Hash[@ratings_to_show.collect {|item| [item, "1"]}]}), :id => 'release_date_header' %>
-<%#      <th>More Info</th> %>
     </tr>
   </thead>
   <tbody>
