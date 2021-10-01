@@ -7,8 +7,15 @@ class MoviesController < ApplicationController
     end
   
     def index
+      
       @movies = Movie.all
-      @ratings_to_show = []
+      
+      if request.path == '/' #For a default path
+        reset_session
+      end
+      
+      
+      @ratings_to_show =!session[:ratings_to_show].nil? ? session[:ratings_to_show]:[]
       if !params[:ratings].nil?
         @ratings_to_show = params[:ratings].keys
       end
