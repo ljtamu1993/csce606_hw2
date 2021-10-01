@@ -15,10 +15,20 @@ class MoviesController < ApplicationController
       end
       
       
-      @ratings_to_show =!session[:ratings_to_show].nil? ? session[:ratings_to_show]:[]
+      @ratings_to_show = []
+      # if !session[:ratings_to_show].nil?
+      #   @ratings_to_show = session[:ratings_to_show]
+      # end  
+      # @ratings_to_show =!session[:ratings_to_show].nil? ? session[:ratings_to_show]:[]
       if !params[:ratings].nil?
         @ratings_to_show = params[:ratings].keys
+        session[:ratings_to_show] = @ratings_to_show
+      else
+        if !session[:ratings_to_show].nil?
+          @ratings_to_show = session[:ratings_to_show]
+        end
       end
+      
       @all_ratings = Movie.all_ratings
       # @ratings_to_show = params[:ratings].keys
       
@@ -28,7 +38,16 @@ class MoviesController < ApplicationController
       
       # get all the movies
       # @movies = Movie.all
-      @sort = params[:sort]     # get the sort argument from index.html
+      if session[:sort_by].nil?
+        @sort = params[:sort]
+      else
+        if !params[:sort].nil? and params[:sort] != session[:sort_by] #What if the sort value is changed?
+          session[:sort_by] = params[:sort]
+        end
+        @sort = session[:sort_by]
+      end
+
+      # @sort = params[:sort]     # get the sort argument from index.html
       @movies = @movies.order(@sort)
       
       if((@sort <=> "title") == 0)
