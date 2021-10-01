@@ -14,35 +14,16 @@ class MoviesController < ApplicationController
       @movies = @movies.order(@sort)
       
       if((@sort <=> "title") == 0)
-        @title_klass = 'bg-info'
+        @title_klass = 'bg-success'
       else
         @title_klass = 'hilite'
       end
       
       if((@sort <=> "release_date") == 0)
-        @release_date_klass = 'bg-info'
+        @release_date_klass = 'bg-success'
       else
         @release_date_klass = 'hilite'
       end
-      
-      # if @sort
-        
-      #     case @sort    # check all the sort argument 
-          
-      #     when "title"
-      #       @title_header = 'bg-success'    
-            
-      #     when !"title"
-      #       @title_header = 'hilite' 
-            
-      #     when "release_date"
-      #       @release_date_header = 'bg-success'
-            
-      #     when !"release_date"
-      #       @release_date_header = 'hilite'
-      #     end
-          
-      # end
       
     end
   
