@@ -8,23 +8,31 @@ class MoviesController < ApplicationController
   
     def index
       
+      @movies = Movie.all
+      
       if request.path == '/' #For a default path
         reset_session
       end
       
       @ratings_to_show =!session[:ratings_to_show].nil? ? session[:ratings_to_show]:[]
       if !session[:sort_by].nil?
-        if !params[:sort].nil? and params[:sort] != session[:sort_by] #What if the sort value is changed?
+        
+        # here we check the session sort and parameter sort
+        if !params[:sort].nil? and params[:sort] != session[:sort_by] 
           session[:sort_by] = params[:sort]
         end
         @sort = session[:sort_by]
       else
+        
+        # we prioritize session sort
         @sort = params[:sort] 
       end
       
-      session[:sort_by] = @sort  # Added for session record
+      #==save current sort==
+      session[:sort_by] = @sort 
       
       if !params[:ratings].nil?
+        #==save current ratings_to_show==
         @ratings_to_show = params[:ratings].keys
         session[:ratings_to_show] = @ratings_to_show
       end
@@ -32,7 +40,7 @@ class MoviesController < ApplicationController
       @movies = Movie.with_ratings(@ratings_to_show)
       @all_ratings = Movie.all_ratings      
       
-      # @movies = Movie.all
+      
       
       # if request.path == '/' #For a default path
       #   reset_session
@@ -78,7 +86,7 @@ class MoviesController < ApplicationController
       #   @sort = session[:sort_by]
       # end
 
-      # # @sort = params[:sort]     # get the sort argument from index.html
+      # @sort = params[:sort]     # get the sort argument from index.html
       @movies = @movies.order(@sort)
       
       if((@sort <=> "title") == 0)
