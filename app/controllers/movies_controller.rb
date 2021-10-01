@@ -79,7 +79,7 @@ class MoviesController < ApplicationController
       # end
 
       # # @sort = params[:sort]     # get the sort argument from index.html
-      # @movies = @movies.order(@sort)
+      @movies = @movies.order(@sort)
       
       if((@sort <=> "title") == 0)
         @title_klass = 'bg-success'
