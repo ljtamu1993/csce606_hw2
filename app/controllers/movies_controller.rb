@@ -8,47 +8,78 @@ class MoviesController < ApplicationController
   
     def index
       
-      @movies = Movie.all
-      
       if request.path == '/' #For a default path
         reset_session
       end
       
-      
-      @ratings_to_show = []
-      # if !session[:ratings_to_show].nil?
-      #   @ratings_to_show = session[:ratings_to_show]
-      # end  
-      # @ratings_to_show =!session[:ratings_to_show].nil? ? session[:ratings_to_show]:[]
-      if !params[:ratings].nil?
-        @ratings_to_show = params[:ratings].keys
-        session[:ratings_to_show] = @ratings_to_show
-      else
-        if !session[:ratings_to_show].nil?
-          @ratings_to_show = session[:ratings_to_show]
-        end
-      end
-      
-      @all_ratings = Movie.all_ratings
-      # @ratings_to_show = params[:ratings].keys
-      
-      
-      @movies = Movie.with_ratings(@ratings_to_show)
-      
-      
-      # get all the movies
-      # @movies = Movie.all
-      if session[:sort_by].nil?
-        @sort = params[:sort]
-      else
+      @ratings_to_show =!session[:ratings_to_show].nil? ? session[:ratings_to_show]:[]
+      if !session[:sort_by].nil?
         if !params[:sort].nil? and params[:sort] != session[:sort_by] #What if the sort value is changed?
           session[:sort_by] = params[:sort]
         end
         @sort = session[:sort_by]
+      else
+        @sort = params[:sort] 
       end
+      
+      session[:sort_by] = @sort  # Added for session record
+      
+      if !params[:ratings].nil?
+        @ratings_to_show = params[:ratings].keys
+        session[:ratings_to_show] = @ratings_to_show
+      end
+      
+      @movies = Movie.with_ratings(@ratings_to_show)
+      @all_ratings = Movie.all_ratings      
+      
+      # @movies = Movie.all
+      
+      # if request.path == '/' #For a default path
+      #   reset_session
+      # end
+      
+      
+      # @ratings_to_show = []
+      # # if !session[:ratings_to_show].nil?
+      # #   @ratings_to_show = session[:ratings_to_show]
+      # # end  
+      # # @ratings_to_show =!session[:ratings_to_show].nil? ? session[:ratings_to_show]:[]
+      # if !params[:ratings].nil?
+      #   @ratings_to_show = params[:ratings].keys
+      #   session[:ratings_to_show] = @ratings_to_show
+      # else
+      #   if !session[:ratings_to_show].nil?
+      #     @ratings_to_show = session[:ratings_to_show]
+      #   end
+      # end
+      
+      # @all_ratings = Movie.all_ratings
+      # # @ratings_to_show = params[:ratings].keys
+      
+      
+      # @movies = Movie.with_ratings(@ratings_to_show)
+      
+      
+      # # get all the movies
+      # # @movies = Movie.all
+      
+      # if !params[:sort].nil?
+      #   @sort = params[:sort]
+      #   session[:sort_by] = @sort
+      # else
+        
+        
+      # if session[:sort_by].nil?
+      #   @sort = params[:sort]
+      # else
+      #   if !params[:sort].nil? and params[:sort] != session[:sort_by] #What if the sort value is changed?
+      #     session[:sort_by] = params[:sort]
+      #   end
+      #   @sort = session[:sort_by]
+      # end
 
-      # @sort = params[:sort]     # get the sort argument from index.html
-      @movies = @movies.order(@sort)
+      # # @sort = params[:sort]     # get the sort argument from index.html
+      # @movies = @movies.order(@sort)
       
       if((@sort <=> "title") == 0)
         @title_klass = 'bg-success'
