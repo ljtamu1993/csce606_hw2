@@ -40,7 +40,7 @@ class MoviesController < ApplicationController
       @movies = Movie.with_ratings(@ratings_to_show)
       @all_ratings = Movie.all_ratings      
       
-      
+      # this finalize the hw2
       
       # if request.path == '/' #For a default path
       #   reset_session
