@@ -11,25 +11,38 @@ class MoviesController < ApplicationController
       # get all the movies
       @movies = Movie.all
       @sort = params[:sort]     # get the sort argument from index.html
+      @movies = @movies.order(@sort)
       
-      if @sort
-        @movies = @movies.order(@sort)
-          case @sort    # check all the sort argument 
-          
-          when "title"
-            @title_header = 'bg-info'    
-            
-          when !"title"
-            @title_header = 'hilite' 
-            
-          when "release_date"
-            @release_date_header = 'bg-info'
-            
-          when !"release_date"
-            @release_date_header = 'hilite'
-          end
-          
+      if((@sort <=> "title") == 0)
+        @title_klass = 'bg-info'
+      else
+        @title_klass = 'hilite'
       end
+      
+      if((@sort <=> "release_date") == 0)
+        @release_date_klass = 'bg-info'
+      else
+        @release_date_klass = 'hilite'
+      end
+      
+      # if @sort
+        
+      #     case @sort    # check all the sort argument 
+          
+      #     when "title"
+      #       @title_header = 'bg-success'    
+            
+      #     when !"title"
+      #       @title_header = 'hilite' 
+            
+      #     when "release_date"
+      #       @release_date_header = 'bg-success'
+            
+      #     when !"release_date"
+      #       @release_date_header = 'hilite'
+      #     end
+          
+      # end
       
     end
   
