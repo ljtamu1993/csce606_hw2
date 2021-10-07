@@ -22,6 +22,7 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
+  expect(page.body.index(e1) < page.body.index(e2)).to be true
   # fail "Unimplemented"
 end
 
@@ -43,12 +44,17 @@ end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-  Movie.all() do |row|
+  # Movie.all() do |row|
     
-    title = row[:title]
+  #   title = row[:title]
     
-    step "I should see \"#{title}\""
+  #   step "I should see \"#{title}\""
     
-  end  
+  # end
+  expect(page.find_by_id("movies").find('tbody').all('tr').size).to eq Movie.count
   # fail "Unimplemented"
+end
+
+After do
+  DatabaseCleaner.clean
 end
