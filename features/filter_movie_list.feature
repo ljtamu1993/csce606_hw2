@@ -24,10 +24,20 @@ Background: movies have been added to database
 
 Scenario: restrict to movies with 'PG' or 'R' ratings
   # enter step(s) to check the 'PG' and 'R' checkboxes
+  When I check the following ratings: PG,R
   # enter step(s) to uncheck all other checkboxes
+  And I uncheck the following ratings: G,PG-13
   # enter step to "submit" the search form on the homepage
+  And I press "Refresh"
   # enter step(s) to ensure that PG and R movies are visible
+  Then I should see " PG "
+  And I should see " R "  
   # enter step(s) to ensure that other movies are not visible
+  And I should not see " G "
+  And I should not see " PG-13 "
 
 Scenario: all ratings selected
   # see assignment
+  When I check the following ratings: G,PG,PG-13,R
+  And I press "Refresh"
+  Then I should see all the movies
